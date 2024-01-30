@@ -36,15 +36,45 @@ const getAllPeliculas = async () => {
 
     return resultado.rows
 }
+//get que me traiga una pelicula por titulo
 
-
-
-
-
-
-//get que me traiga una pelicula
+const buscarPorTitulo = async (titulo) => {
+ let client, result
+    try {
+        client = await pool.connect()
+        const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
+        result = respuesta.rows
+    } catch (error) {
+        console.log(error)
+        throw new Error('error')
+    }finally{
+        client.release()
+    }
+    return result
+}
 
 //crear una pelicula
+
+const crearPeliculas = async (body) => {
+    let client, result
+    const {titulo, anio, director, genero, duracion, imagen} = body
+    //console.log("body en el modelo",body)
+    try {
+        client = await pool.connect()
+        result = client.query(queriesAll.querieCrearPelicula, [titulo, anio, director, genero, duracion, imagen])
+
+
+    } catch (error) {
+        console.log(error)
+        throw new Error('error')
+    } finally {
+        client.release()
+    }
+    return result
+}
+
+
+
 
 //actualizar una pelicula
 
@@ -76,5 +106,7 @@ return resultado
 
 module.exports = {
     getAllPeliculas,
-    putPelicula
+    putPelicula,
+    crearPeliculas,
+    buscarPorTitulo
 }
