@@ -3,7 +3,7 @@ const router = express.Router()
 const {getPeliculas} = require('../controllers/peliculasController')
 
 //mostrar todos
-router.get('/', getPeliculas)
+router.get('/movies', getPeliculas)
 //mostrar uno
 
 //crear
