@@ -1,6 +1,6 @@
 
-const pool=require('../configs/pgConfig')
-const queriesAll=require('../models/queries')
+const pool = require('../configs/pgConfig')
+const queriesAll = require('../models/queries')
 
 // esto es como el modelo find pero creada por nosotros
 //get que traiga todas las peliculas
@@ -22,7 +22,7 @@ const getAllPeliculas = async () => {
 
         //aca podemos observar como recogemos los datos que se encuentran alojados en ROWS
         //const datos = resultado.rows;
-       // console.log("Datos", datos)
+        // console.log("Datos", datos)
 
 
     } catch (error) {
@@ -36,17 +36,51 @@ const getAllPeliculas = async () => {
 
     return resultado.rows
 }
+//get que me traiga una pelicula por titulo
 
-
-
-
-module.exports={
-    getAllPeliculas
+const buscarPorTitulo = async (titulo) => {
+ let client, result
+    try {
+        client = await pool.connect()
+        const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
+        result = respuesta.rows
+    } catch (error) {
+        console.log(error)
+        throw new Error('error')
+    }finally{
+        client.release()
+    }
+    return result
 }
 
-//get que me traiga una pelicula
-
 //crear una pelicula
+
+const crearPeliculas = async (body) => {
+    let client, result
+    const {titulo, anio, director, genero, duracion, imagen} = body
+    //console.log("body en el modelo",body)
+    try {
+        client = await pool.connect()
+        result = client.query(queriesAll.querieCrearPelicula, [titulo, anio, director, genero, duracion, imagen])
+
+
+    } catch (error) {
+        console.log(error)
+        throw new Error('error')
+    } finally {
+        client.release()
+    }
+    return result
+}
+
+module.exports = {
+    getAllPeliculas,
+    crearPeliculas,
+    buscarPorTitulo
+}
+
+
+
 
 //actualizar una pelicula
 

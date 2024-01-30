@@ -1,4 +1,4 @@
-const { getAllPeliculas } = require('../models/modelPeliculas')
+const { getAllPeliculas, crearPeliculas, buscarPorTitulo } = require('../models/modelPeliculas')
 
 const getPeliculas = async (req, res) => {
 
@@ -33,11 +33,40 @@ const getPeliculas = async (req, res) => {
 //get que me traiga una pelicula
 
 //crear una pelicula
+const crearPelicula = async(req, res) => {
+   // console.log(req.body)
+    try {
+        const{titulo} = req.body;
 
+        let respuesta = await buscarPorTitulo(titulo)
+        console.log(respuesta)
+        if(respuesta.length > 0){
+            return res.status(400).json({
+                error:true,
+                msg:['Ya existe una pelicula con ese nombre']
+            })
+        }
+
+        respuesta = await crearPeliculas(req.body)
+       
+        return res.status(201).json({
+            error:false,
+            msg:['Pelicula creada satisfactoriamente']
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            error: true,
+            msg: ['Contacte con el administrador']
+        })
+    }
+
+}
 //actualizar una pelicula
 
 //eliminar una pelicula
 
 module.exports = {
-    getPeliculas
+    getPeliculas,
+    crearPelicula
 }
