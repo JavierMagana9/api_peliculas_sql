@@ -1,4 +1,4 @@
-const { getAllPeliculas } = require('../models/modelPeliculas')
+const { getAllPeliculas, putPelicula } = require('../models/modelPeliculas')
 
 const getPeliculas = async (req, res) => {
 
@@ -30,14 +30,55 @@ const getPeliculas = async (req, res) => {
     }
 
 }
-//get que me traiga una pelicula
+//get que me traiga una pelicula <-------la ubicara por id_pelicula
+
+
 
 //crear una pelicula
 
 //actualizar una pelicula
 
+const actualizarPelicula = async (req, res) => {
+
+
+    try {
+         const id_pelicula = req.params.id
+
+       // console.log("en id",id_pelicula)
+
+
+        //const {titulo} = req.body
+//Comprobaremos si hay pelicula con ese titulo , si no la hay continuamos (se hara cuando mergemos)
+
+
+        const respuesta = await putPelicula(req.body,id_pelicula)
+
+        
+
+            return res.status(200).json({
+                error: false,
+                msg: ['la pelicula se actualizo satisfactoriamente'],
+            })
+        
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            msg: 'comuniquese con el administrador',
+            error: true,
+        })
+    }
+
+}
+
+
+
+
+
+
 //eliminar una pelicula
 
 module.exports = {
-    getPeliculas
+    getPeliculas,
+    actualizarPelicula
 }

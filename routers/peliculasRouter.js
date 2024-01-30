@@ -1,14 +1,15 @@
 const express = require('express')
 const router = express.Router()
-const {getPeliculas} = require('../controllers/peliculasController')
+const {getPeliculas,actualizarPelicula} = require('../controllers/peliculasController')
 
 //mostrar todos
 router.get('/movies', getPeliculas)
-//mostrar uno
+//mostrar una pelicula
 
 //crear
 
 //actualizar
+router.put('/editMovie/:id', actualizarPelicula)
 
 //eliminar
 
