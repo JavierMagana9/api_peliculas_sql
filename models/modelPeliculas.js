@@ -41,7 +41,6 @@ const getAllPeliculas = async () => {
 const buscarPorTitulo = async (titulo) => {
  let client, result
     try {
-        console.log("en models",titulo)
         client = await pool.connect()
         const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
         result = respuesta.rows
@@ -82,8 +81,8 @@ const crearPeliculas = async (body) => {
 
 const putPelicula = async (body,id_pelicula) => {
      console.log("modeloPelicula",body,id_pelicula)
-    let cliente,
-        resultado
+    let cliente, resultado
+    
 const {titulo,anio,director, genero,duracion, imagen}=body
     try {
         cliente = await pool.connect();
