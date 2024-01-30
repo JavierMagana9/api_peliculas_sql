@@ -39,17 +39,17 @@ const getAllPeliculas = async () => {
 //get que me traiga una pelicula por titulo
 
 const buscarPorTitulo = async (titulo) => {
- let client, result
+    let client, result
     try {
-        console.log("en models",titulo)
+        console.log("en models", titulo)
         client = await pool.connect()
         const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
         result = respuesta.rows
-        console.log("en models",result)
+        console.log("en models", result)
     } catch (error) {
         console.log(error)
         throw new Error('error')
-    }finally{
+    } finally {
         client.release()
     }
     return result
@@ -59,7 +59,7 @@ const buscarPorTitulo = async (titulo) => {
 
 const crearPeliculas = async (body) => {
     let client, result
-    const {titulo, anio, director, genero, duracion, imagen} = body
+    const { titulo, anio, director, genero, duracion, imagen } = body
     //console.log("body en el modelo",body)
     try {
         client = await pool.connect()
@@ -80,35 +80,49 @@ const crearPeliculas = async (body) => {
 
 //actualizar una pelicula
 
-const putPelicula = async (body,id_pelicula) => {
-     console.log("modeloPelicula",body,id_pelicula)
-    let cliente,
-        resultado
-const {titulo,anio,director, genero,duracion, imagen}=body
+const putPelicula = async (body, id_pelicula) => {
+    console.log("modeloPelicula", body, id_pelicula)
+    let client,
+        result
+    const { titulo, anio, director, genero, duracion, imagen } = body
     try {
-        cliente = await pool.connect();
-        resultado = await cliente.query(queriesAll.querieUpdate, [titulo,anio,director, genero,duracion, imagen, id_pelicula]);
+        client = await pool.connect();
+        result = await client.query(queriesAll.querieUpdate, [titulo, anio, director, genero, duracion, imagen, id_pelicula]);
 
-        
+
 
     } catch (error) {
         console.log(error)
         throw new Error('error de conexion')
     } finally {
-        cliente.release()
+        client.release()
     }
 
-return resultado
+    return result
 }
 
 
 //eliminar una pelicula
-//getAllPeliculas()
-//putPelicula()
+const deletePelicula = async (id_pelicula) => {
+    console.log("deletePelicula", id_pelicula)
+    let client, result
+    try {
+        client = await pool.connect();
+        result = await client.query(queriesAll.querieDelete, [id_pelicula]);
+    } catch (error) {
+        console.log(error)
+        throw new Error('error de conexion')
+    } finally {
+        client.release()
+    }
+    return result
+}
+
 
 module.exports = {
     getAllPeliculas,
     putPelicula,
     crearPeliculas,
-    buscarPorTitulo
+    buscarPorTitulo,
+    deletePelicula
 }

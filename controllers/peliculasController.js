@@ -1,7 +1,7 @@
 
-const { getAllPeliculas, crearPeliculas, buscarPorTitulo, putPelicula } = require('../models/modelPeliculas')
+const { getAllPeliculas, crearPeliculas, buscarPorTitulo, putPelicula, deletePelicula } = require('../models/modelPeliculas')
 
-
+//buscar todas las peliculas
 const getPeliculas = async (req, res) => {
 
     try {
@@ -32,19 +32,19 @@ const getPeliculas = async (req, res) => {
     }
 
 }
-//get que me traiga una pelicula <-------la ubicara por id_pelicula
 
-const buscarPeliPorTitulo = async(req,res) => {
+//buscar pelicula por titulo
+const buscarPeliPorTitulo = async (req, res) => {
 
     try {
         //console.log("req",req)
         const titulo = req.params.title
-       
-        console.log("titulo",titulo)
+
+        //console.log("titulo", titulo)
         let respuesta = await buscarPorTitulo(titulo)
-        console.log("en buscarPeliPorTitulo",respuesta)
-        console.log("respuesta",respuesta)
-        if(respuesta.length === 0){
+        //console.log("en buscarPeliPorTitulo", respuesta)
+        //console.log("respuesta", respuesta)
+        if (respuesta.length === 0) {
             return res.status(404).json({
                 error: true,
                 msg: ['Pelicula no encontrada'],
@@ -52,8 +52,8 @@ const buscarPeliPorTitulo = async(req,res) => {
         }
 
         return res.status(200).json({
-            error:false,
-            msg:['Pelicula encontrada'],
+            error: false,
+            msg: ['Pelicula encontrada'],
             respuesta
         })
     } catch (error) {
@@ -67,25 +67,25 @@ const buscarPeliPorTitulo = async(req,res) => {
 }
 
 //crear una pelicula
-const crearPelicula = async(req, res) => {
-   // console.log(req.body)
+const crearPelicula = async (req, res) => {
+    // console.log(req.body)
     try {
-        const{titulo} = req.body;
+        const { titulo } = req.body;
 
         let respuesta = await buscarPorTitulo(titulo)
         //console.log(respuesta)
-        if(respuesta.length > 0){
+        if (respuesta.length > 0) {
             return res.status(400).json({
-                error:true,
-                msg:['Ya existe una pelicula con ese nombre']
+                error: true,
+                msg: ['Ya existe una pelicula con ese nombre']
             })
         }
 
         respuesta = await crearPeliculas(req.body)
-       
+
         return res.status(201).json({
-            error:false,
-            msg:['Pelicula creada satisfactoriamente']
+            error: false,
+            msg: ['Pelicula creada satisfactoriamente']
         })
     } catch (error) {
         console.log(error)
@@ -96,35 +96,61 @@ const crearPelicula = async(req, res) => {
     }
 
 }
-//actualizar una pelicula
 
+//actualizar una pelicula
 const actualizarPelicula = async (req, res) => {
 
-
     try {
-         const id_pelicula = req.params.id
-
-       // console.log("en id",id_pelicula)
-
-
-        //const {titulo} = req.body
-//Comprobaremos si hay pelicula con ese titulo , si no la hay continuamos (se hara cuando mergemos)
-
-
-        const respuesta = await putPelicula(req.body,id_pelicula)
-
-        
-
-            return res.status(200).json({
-                error: false,
-                msg: ['la pelicula se actualizo satisfactoriamente'],
+        const id_pelicula = req.params.id
+        //Comprobaremos si hay pelicula con ese titulo , si no la hay continuamos (se hara cuando mergemos)
+        const { titulo } = req.body
+        let respuesta = await buscarPorTitulo(titulo)
+       
+        if (respuesta.length > 0) {
+            return res.status(400).json({
+                error: true,
+                msg: ['Ya existe una pelicula con ese nombre']
             })
-        
+        }
+        await putPelicula(req.body, id_pelicula)
+        return res.status(200).json({
+            error: false,
+            msg: ['la pelicula se actualizo satisfactoriamente'],
+        })
 
     } catch (error) {
         console.log(error)
         return res.status(500).json({
-            msg: 'comuniquese con el administrador',
+            msg: ['comuniquese con el administrador'],
+            error: true,
+        })
+    }
+
+}
+
+//eliminar una pelicula
+
+const borrarPelicula = async (req, res) => {
+    try {
+        const id_pelicula = req.params.id
+       // console.log("En DELETE", id_pelicula)
+        const respuesta = await deletePelicula(id_pelicula)
+
+        if (respuesta.rowCount == 0){
+            return res.status(401).json({
+                error: true,
+                msg: ['El id no existe']
+            })  
+        }
+        //console.log("fila de cuenta", respuesta.rowCount)
+        return res.status(200).json({
+            error: false,
+            msg: ['la pelicula se elimino correctamente'],
+        })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            msg: ['comuniquese con el administrador'],
             error: true,
         })
     }
@@ -132,15 +158,10 @@ const actualizarPelicula = async (req, res) => {
 }
 
 
-
-
-
-
-//eliminar una pelicula
-
 module.exports = {
     getPeliculas,
     actualizarPelicula,
     crearPelicula,
-    buscarPeliPorTitulo
+    buscarPeliPorTitulo,
+    borrarPelicula
 }
