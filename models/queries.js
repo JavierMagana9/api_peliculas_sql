@@ -6,9 +6,18 @@ const queriesAll={
     querieBuscarPorTitulo: `SELECT *
                             FROM peliculas
                             WHERE titulo = $1
-                            LIMIT 1`                      
+                            LIMIT 1` ,
+    querieUpdate: `UPDATE peliculas
+                  SET titulo = $1, 
+                         anio = $2, 
+                        director = $3,
+                        genero = $4,
+                        duracion = $5,
+                        imagen= $6
+                 WHERE id_pelicula=$7;`
 }
 
 
 
 module.exports=queriesAll
+
