@@ -44,17 +44,17 @@ const buscarPeliPorTitulo = async(req,res) => {
         let respuesta = await buscarPorTitulo(titulo)
         console.log("en buscarPeliPorTitulo",respuesta)
         console.log("respuesta",respuesta)
-        if(!respuesta.ok){
+        if(respuesta.length === 0){
             return res.status(404).json({
                 error: true,
                 msg: ['Pelicula no encontrada'],
-                respuesta
             })
         }
 
         return res.status(200).json({
             error:false,
-            msg:['Pelicula encontrada']
+            msg:['Pelicula encontrada'],
+            respuesta
         })
     } catch (error) {
         console.log(error)
