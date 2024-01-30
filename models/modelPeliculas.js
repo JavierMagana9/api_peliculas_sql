@@ -41,9 +41,11 @@ const getAllPeliculas = async () => {
 const buscarPorTitulo = async (titulo) => {
  let client, result
     try {
+        console.log("en models",titulo)
         client = await pool.connect()
         const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
         result = respuesta.rows
+        console.log("en models",result)
     } catch (error) {
         console.log(error)
         throw new Error('error')
