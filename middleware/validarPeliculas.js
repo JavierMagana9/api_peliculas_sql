@@ -8,7 +8,7 @@ console.log(errors)
 if(!errors.isEmpty()){
     return res.status(400).json({
         error: true,
-        errors: errors.mapped()
+        errors: errors.array()
     })
 
 }
