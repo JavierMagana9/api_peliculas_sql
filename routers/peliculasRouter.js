@@ -3,14 +3,16 @@ const {check} = require('express-validator')
 const router = express.Router()
 
 
-const {getPeliculas,crearPelicula, actualizarPelicula,buscarPeliPorTitulo,borrarPelicula} = require('../controllers/peliculasController')
+const {getPeliculas,crearPelicula, actualizarPelicula,buscarPeliPorTitulo,borrarPelicula,buscarPeliPorID } = require('../controllers/peliculasController')
 const {validarInput} = require('../middleware/validarInputs')
 
 
 //mostrar todos
 router.get('/search', getPeliculas)
-//mostrar una pelicula
+//mostrar una pelicula por titulo
 router.get('/search/:title', buscarPeliPorTitulo)
+//buscar un peli por ID
+router.get('/search/peli/:id', buscarPeliPorID)
 //crear titulo,anio,director, genero,duracion, imagen
 router.post('/createMovie', [
     check('titulo', 'Por favor, introduce un titulo').not().isEmpty().trim(),

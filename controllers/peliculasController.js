@@ -1,5 +1,5 @@
 
-const { getAllPeliculas, crearPeliculas, buscarPorTitulo, putPelicula, deletePelicula } = require('../models/modelPeliculas')
+const { getAllPeliculas, crearPeliculas, buscarPorTitulo, putPelicula, deletePelicula, buscarPorID } = require('../models/modelPeliculas')
 
 //buscar todas las peliculas
 const getPeliculas = async (req, res) => {
@@ -13,20 +13,19 @@ const getPeliculas = async (req, res) => {
             //Preguntar al profesor porque no esta entrando a este error y va al500 defrente
             return res.status(400).json({
                 error: true,
-                msge: "no se conecto a la base de datos SQL"
+                msg: ["no se conecto a la base de datos SQL"]
             })
 
         }
         return res.status(200).json({
             error: false,
-            msg: "recogiendo datos de la base de datos SQL",
             data
         })
 
     } catch (error) {
         return res.status(500).json({
             error: false,
-            msg: 'comuniquese con el administrador'
+            msg: ['comuniquese con el administrador']
         })
 
     }
@@ -39,7 +38,7 @@ const buscarPeliPorTitulo = async (req, res) => {
     try {
         
         const titulo = req.params.title
-        
+       
         let respuesta = await buscarPorTitulo(titulo)
         
         if(respuesta.length === 0){
@@ -64,6 +63,39 @@ const buscarPeliPorTitulo = async (req, res) => {
     }
 
 }
+
+//buscar pelicula por ID
+const buscarPeliPorID = async (req, res) => {
+
+  try {
+      
+      const id = req.params.id
+     
+      let respuesta = await buscarPorID(id)
+      
+      if(respuesta.length === 0){
+
+          return res.status(404).json({
+              error: true,
+              msg: ['Pelicula no encontrada'],
+          })
+      }
+
+      return res.status(200).json({
+          error: false,
+          msg: ['Pelicula encontrada'],
+          respuesta
+      })
+  } catch (error) {
+      console.log(error)
+      return res.status(500).json({
+          error: true,
+          msg: ['Contacte con el administrador']
+      })
+  }
+
+}
+
 
 //crear una pelicula
 const crearPelicula = async (req, res) => {
@@ -162,5 +194,6 @@ module.exports = {
     actualizarPelicula,
     crearPelicula,
     buscarPeliPorTitulo,
-    borrarPelicula
+    borrarPelicula,
+    buscarPeliPorID
 }

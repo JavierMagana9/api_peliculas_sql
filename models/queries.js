@@ -5,8 +5,12 @@ const queriesAll = {
                          VALUES ($1, $2, $3, $4, $5, $6)`,
        querieBuscarPorTitulo: `SELECT *
                             FROM peliculas
-                            WHERE titulo = $1
+                            WHERE titulo LIKE $1
                             LIMIT 1` ,
+       querieBuscarPorID: `SELECT *
+                            FROM peliculas
+                            WHERE id_pelicula = $1
+                            LIMIT 1` ,                     
        querieUpdate: `UPDATE peliculas
                   SET titulo = $1, 
                          anio = $2, 

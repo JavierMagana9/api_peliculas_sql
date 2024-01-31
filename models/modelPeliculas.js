@@ -40,9 +40,10 @@ const getAllPeliculas = async () => {
 
 const buscarPorTitulo = async (titulo) => {
     let client, result
+    titulo = titulo.trim()
     try {
         client = await pool.connect()
-        const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, [titulo])
+        const respuesta = await client.query(queriesAll.querieBuscarPorTitulo, ['%'+titulo+'%'])
         result = respuesta.rows
         console.log("en models", result)
     } catch (error) {
@@ -54,6 +55,25 @@ const buscarPorTitulo = async (titulo) => {
     return result
 }
 
+
+//get que me traiga una pelicula por ID
+
+const buscarPorID = async (id_pelicula) => {
+    let client, result
+    
+    try {
+        client = await pool.connect()
+        const respuesta = await client.query(queriesAll.querieBuscarPorID, [id_pelicula])
+        result = respuesta.rows
+        console.log("en models", result)
+    } catch (error) {
+        console.log(error)
+        throw new Error('error')
+    } finally {
+        client.release()
+    }
+    return result
+}
 //crear una pelicula
 
 const crearPeliculas = async (body) => {
@@ -125,5 +145,6 @@ module.exports = {
     putPelicula,
     crearPeliculas,
     buscarPorTitulo,
-    deletePelicula
+    deletePelicula,
+    buscarPorID
 }
