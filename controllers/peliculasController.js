@@ -37,14 +37,13 @@ const getPeliculas = async (req, res) => {
 const buscarPeliPorTitulo = async (req, res) => {
 
     try {
-        //console.log("req",req)
+        
         const titulo = req.params.title
-
-        //console.log("titulo", titulo)
+        
         let respuesta = await buscarPorTitulo(titulo)
-        //console.log("en buscarPeliPorTitulo", respuesta)
-        //console.log("respuesta", respuesta)
-        if (respuesta.length === 0) {
+        
+        if(respuesta.length === 0){
+
             return res.status(404).json({
                 error: true,
                 msg: ['Pelicula no encontrada'],
