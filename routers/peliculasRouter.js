@@ -4,7 +4,7 @@ const router = express.Router()
 
 
 const {getPeliculas,crearPelicula, actualizarPelicula,buscarPeliPorTitulo,borrarPelicula} = require('../controllers/peliculasController')
-const {validarCrearPelicula} = require('../middleware/validarPeliculas')
+const {validarInput} = require('../middleware/validarInputs')
 
 
 //mostrar todos
@@ -18,7 +18,7 @@ router.post('/createMovie', [
     check('director', 'Por favor, introduce el nombre de un director').not().isEmpty().trim(),
     check('genero', 'Por favor, introduce un género').not().isEmpty().trim(),
     check('imagen', "Por favor, introduce una URL válida").not().isEmpty().isURL(),
-    validarCrearPelicula
+    validarInput
 ],
 crearPelicula)
 //actualizar
@@ -28,7 +28,7 @@ router.put('/editMovie/:id',[
     check('director', 'Por favor, introduce el nombre de un director').not().isEmpty().trim(),
     check('genero', 'Por favor, introduce un género').not().isEmpty().trim(),
     check('imagen', "Por favor, introduce una URL válida").not().isEmpty().isURL(),
-    validarCrearPelicula
+    validarInput
 ], 
 actualizarPelicula)
 
