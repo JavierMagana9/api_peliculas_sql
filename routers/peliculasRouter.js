@@ -2,8 +2,10 @@ const express = require('express')
 const {check} = require('express-validator')
 const router = express.Router()
 
-const {getPeliculas,crearPelicula, actualizarPelicula,buscarPeliPorTitulo} = require('../controllers/peliculasController')
+
+const {getPeliculas,crearPelicula, actualizarPelicula,buscarPeliPorTitulo,borrarPelicula} = require('../controllers/peliculasController')
 const {validarCrearPelicula} = require('../middleware/validarPeliculas')
+
 
 //mostrar todos
 router.get('/movies', getPeliculas)
@@ -23,5 +25,6 @@ crearPelicula)
 router.put('/editMovie/:id', actualizarPelicula)
 
 //eliminar
+router.delete('/removeMovie/:id',borrarPelicula)
 
 module.exports = router
