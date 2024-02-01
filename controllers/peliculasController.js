@@ -24,7 +24,7 @@ const getPeliculas = async (req, res) => {
 
     } catch (error) {
         return res.status(500).json({
-            error: false,
+            error: true,
             msg: ['comuniquese con el administrador']
         })
 
