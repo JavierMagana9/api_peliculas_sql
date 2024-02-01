@@ -176,7 +176,7 @@ const borrarPelicula = async (req, res) => {
         //console.log("fila de cuenta", respuesta.rowCount)
         return res.status(200).json({
             error: false,
-            msg: ['la pelicula se elimino correctamente'],
+            
         })
     } catch (error) {
         console.log(error)

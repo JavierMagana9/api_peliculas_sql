@@ -11,7 +11,7 @@ const pool = new Pool({
     connectionString:process.env.CONNECTRENDER,
     
 // tenemos que utilizar SSL para indicar que la conexion encriptada es segura y pueda conectarse, garantizando la seguridad entre los intercambios de informacion que tendremos con la base de datos
-    ssl:true
+    // ssl:true
 
     // user: process.env.USERNAMEPG,
     // database: process.env.DATABASE,
