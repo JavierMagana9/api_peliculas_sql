@@ -111,6 +111,12 @@ const crearPelicula = async (req, res) => {
                 msg: ['Ya existe una pelicula con ese nombre']
             })
         }
+        const img = req.file
+        console.log("img en crearpeli",img)
+        if (req.file) {
+            const imagen = req.file.path;            
+            req.body.imagen = imagen;
+        }
 
         respuesta = await crearPeliculas(req.body)
 

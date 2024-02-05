@@ -19,7 +19,7 @@ router.post('/createMovie', [
     check('anio', 'Por favor, introduce un año desde 1900 hasta el año actual').not().isEmpty().isInt({ min: 1900, max: new Date().getFullYear() }),
     check('director', 'Por favor, introduce el nombre de un director').not().isEmpty().trim(),
     check('genero', 'Por favor, introduce un género').not().isEmpty().trim(),
-    check('imagen', "Por favor, introduce una URL válida").not().isEmpty().isURL(),
+    check('imagen', "Por favor, introduce una URL válida").not().isEmpty(),
     validarInput
 ],
 crearPelicula)
@@ -29,7 +29,7 @@ router.put('/editMovie/:id',[
     check('anio', 'Por favor, introduce un año desde 1900 hasta el año actual').not().isEmpty().isInt({ min: 1900, max: new Date().getFullYear() }),
     check('director', 'Por favor, introduce el nombre de un director').not().isEmpty().trim(),
     check('genero', 'Por favor, introduce un género').not().isEmpty().trim(),
-    check('imagen', "Por favor, introduce una URL válida").not().isEmpty().isURL(),
+    check('imagen', "Por favor, introduce una URL válida").not().isEmpty(),
     validarInput
 ], 
 actualizarPelicula)
