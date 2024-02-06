@@ -140,13 +140,15 @@ const actualizarPelicula = async (req, res) => {
         if (respuesta.length > 0) {
             return res.status(400).json({
                 error: true,
-                msg: ['Ya existe una pelicula con ese nombre']
+                msg: ['Ya existe una pelicula con ese nombre'],
+                data: respuesta
             })
         }
         await putPelicula(req.body, id_pelicula)
         return res.status(200).json({
             error: false,
             msg: ['la pelicula se actualizo satisfactoriamente'],
+            data: respuesta
         })
 
     } catch (error) {
